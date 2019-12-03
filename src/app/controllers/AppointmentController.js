@@ -62,6 +62,10 @@ class AppointmentController {
         .json({ error: 'You can only create appointments with providers' });
     }
 
+    if (req.userId === provider_id) {
+      return res.json({error: 'Appointment is not permitted'})
+    }
+
     /**
      * Check for past dates
      */
@@ -107,7 +111,7 @@ class AppointmentController {
      )
 
      await Notification.create({
-       content: `Novo agentamento de ${user.name} para o dia ${formattedDate}`,
+       content: `Novo agendamento de ${user.name} para o dia ${formattedDate}`,
        user: provider_id,
      })
 
